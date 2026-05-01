@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     height: 180,
   },
   streakCard: {
-    flex: 1.2,
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
@@ -117,13 +117,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   metricsCol: {
-    flex: 1,
+    flex: 1.1,
     gap: 16,
   },
   metricSmall: {
     flex: 1,
-    padding: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 12,
     justifyContent: 'center',
+    overflow:'hidden',
   },
   metricLabel: {
     ...Typography.caption,
@@ -133,6 +135,7 @@ const styles = StyleSheet.create({
   metricValue: {
     fontSize: 24,
     fontWeight: 'bold',
+    flexWrap:'wrap',
   },
   activityCard: {
     padding: 24,

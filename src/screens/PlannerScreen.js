@@ -16,11 +16,16 @@ export default function PlannerScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <HexagonBackground />
-      <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollContent}
+      >
         <View style={styles.header}>
           <View>
-            <Text style={Typography.h1}>✨ AI Study Planner 🐝</Text>
-            <Text style={[Typography.body, { marginTop: 4 }]}>Your personalized study route is ready</Text>
+            <Text style={Typography.h1}>Your Plan</Text>
+            <Text style={[Typography.body, { marginTop: 4 }]}>
+              Today’s study plan
+            </Text>
           </View>
           <TouchableOpacity style={styles.newButton}>
             <Text style={styles.newButtonText}>+ New Plan</Text>
@@ -38,11 +43,25 @@ export default function PlannerScreen() {
             <Text style={styles.topicTitle}>{plan.topic}</Text>
             <View style={styles.taskFooter}>
               <View style={styles.footerItem}>
-                <Ionicons name="time-outline" size={14} color={Colors.textSecondary} />
+                <Ionicons
+                  name="time-outline"
+                  size={14}
+                  color={Colors.textSecondary}
+                />
                 <Text style={styles.footerText}>{plan.duration}</Text>
               </View>
-              <View style={[styles.difficultyBadge, { borderColor: plan.color, backgroundColor: plan.color + '1A' }]}>
-                <Text style={[styles.difficultyText, { color: plan.color }]}>{plan.difficulty}</Text>
+              <View
+                style={[
+                  styles.difficultyBadge,
+                  {
+                    borderColor: plan.color,
+                    backgroundColor: plan.color + "1A",
+                  },
+                ]}
+              >
+                <Text style={[styles.difficultyText, { color: plan.color }]}>
+                  {plan.difficulty}
+                </Text>
               </View>
             </View>
           </GlassCard>

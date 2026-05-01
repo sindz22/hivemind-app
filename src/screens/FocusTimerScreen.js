@@ -10,13 +10,16 @@ export default function FocusTimerScreen({ navigation }) {
 
   useEffect(() => {
     let interval = null;
+
     if (isActive && timeLeft > 0) {
       interval = setInterval(() => {
         setTimeLeft((time) => time - 1);
       }, 1000);
-    } else if (!isActive && timeLeft !== 0) {
-      clearInterval(interval);
+    } else if (timeLeft === 0) {
+      setIsActive(false);
+      alert("Session Complete 🎉");
     }
+
     return () => clearInterval(interval);
   }, [isActive, timeLeft]);
 
@@ -50,14 +53,17 @@ export default function FocusTimerScreen({ navigation }) {
           </View>
         </View>
 
-        <Text style={styles.greetingText}>Keep going, Nandhana! ✨</Text>
+        <Text style={styles.greetingText}>
+          {isActive ? "Stay focused 🔥" : "Ready to start?"}
+        </Text>
 
         <View style={styles.controlsContainer}>
-          <TouchableOpacity 
-            style={styles.playButton} 
-            onPress={toggleTimer}
-          >
-            <Ionicons name={isActive ? "pause" : "play"} size={32} color="#000" />
+          <TouchableOpacity style={styles.playButton} onPress={toggleTimer}>
+            <Ionicons
+              name={isActive ? "pause" : "play"}
+              size={32}
+              color="#000"
+            />
           </TouchableOpacity>
           <TouchableOpacity style={styles.stopButton} onPress={resetTimer}>
             <Ionicons name="stop" size={24} color={Colors.text} />
@@ -65,7 +71,11 @@ export default function FocusTimerScreen({ navigation }) {
         </View>
 
         <TouchableOpacity style={styles.musicButton}>
-          <Ionicons name="musical-notes-outline" size={18} color={Colors.textSecondary} />
+          <Ionicons
+            name="musical-notes-outline"
+            size={18}
+            color={Colors.textSecondary}
+          />
           <Text style={styles.musicButtonText}>Ambient Music</Text>
           <View style={styles.toggleDot} />
         </TouchableOpacity>
