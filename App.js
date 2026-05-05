@@ -10,6 +10,8 @@ import { ThemeProvider, useTheme } from './src/theme/ThemeContext';
 import { UserProvider } from './src/context/UserContext';
 
 import OnboardingScreen from './src/screens/OnboardingScreen';
+import AuthLandingScreen from './src/screens/AuthLandingScreen';
+import AuthScreen from './src/screens/AuthScreen';
 import DashboardScreen from './src/screens/DashboardScreen';
 import FocusTimerScreen from './src/screens/FocusTimerScreen';
 import PlannerScreen from './src/screens/PlannerScreen';
@@ -90,12 +92,14 @@ function AppNavigator() {
   return (
     <NavigationContainer theme={navTheme}>
       <Stack.Navigator
-        initialRouteName="Onboarding"
+        initialRouteName="AuthLanding"
         screenOptions={{
           headerShown: false,
           contentStyle: { backgroundColor: colors.background },
         }}
       >
+        <Stack.Screen name="AuthLanding" component={AuthLandingScreen} />
+        <Stack.Screen name="AuthScreen" component={AuthScreen} />
         <Stack.Screen name="Onboarding" component={OnboardingScreen} />
         <Stack.Screen name="MainTabs" component={MainTabs} />
 
