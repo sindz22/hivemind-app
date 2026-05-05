@@ -12,6 +12,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '../theme/ThemeContext';
 import { useUser } from '../context/UserContext';
+import { useFocusEffect } from '@react-navigation/native';
 import GlassCard from '../components/GlassCard';
 import HexagonBackground from '../components/HexagonBackground';
 import { Ionicons } from '@expo/vector-icons';
@@ -103,13 +104,12 @@ export default function PlannerScreen() {
     }
   }, [userId]);
 
-  useEffect(() => {
-    loadTasks();
-  }, [loadTasks]);
-
-  useEffect(() => {
-    loadDatesWithPlans();
-  }, [loadDatesWithPlans]);
+  useFocusEffect(
+    useCallback(() => {
+      loadTasks();
+      loadDatesWithPlans();
+    }, [loadTasks, loadDatesWithPlans])
+  );
 
   const calendarDays = useMemo(() => {
     const year = currentMonth.getFullYear();

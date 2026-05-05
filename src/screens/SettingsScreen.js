@@ -11,11 +11,12 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "../theme/ThemeContext";
 import { useUser } from "../context/UserContext";
+import { resetUserData } from "../firebase/services/userService";
 import HexagonBackground from "../components/HexagonBackground";
 
 export default function SettingsScreen() {
   const { colors, Typography, isDarkMode, toggleTheme } = useTheme();
-  const { userName } = useUser();
+  const { userName, userId } = useUser();
   const [notifications, setNotifications] = useState(false);
   const styles = getStyles(colors, Typography);
 
@@ -28,9 +29,13 @@ export default function SettingsScreen() {
         {
           text: 'Reset',
           style: 'destructive',
-          onPress: () => {
-            // TODO: Clear Firestore data for user
-            Alert.alert('Done', 'All data has been reset.');
+          onPress: async () => {
+            const res = await resetUserData(userId);
+            if (res.success) {
+              Alert.alert('Done', 'All data has been reset.');
+            } else {
+              Alert.alert('Error', 'Failed to reset data: ' + res.error);
+            }
           },
         },
       ]

@@ -48,15 +48,19 @@ export async function getTasksByDate(userId, dateKey) {
     const tasksRef = collection(db, 'users', userId, COLLECTION);
     const q = query(
       tasksRef,
-      where('date', '==', dateKey),
-      orderBy('startTime', 'asc')
+      where('date', '==', dateKey)
     );
     const snapshot = await getDocs(q);
 
-    return snapshot.docs.map((doc) => ({
+    let tasks = snapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
     }));
+
+    // Sort in memory to avoid requiring a Firestore composite index
+    tasks.sort((a, b) => (a.startTime || '').localeCompare(b.startTime || ''));
+
+    return tasks;
   } catch (error) {
     console.error('Error fetching tasks for date:', error);
     return [];
