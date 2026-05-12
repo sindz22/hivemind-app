@@ -1,19 +1,11 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { Appearance } from 'react-native';
+import React, { createContext, useContext, useState, useRef, useCallback } from 'react';
 import { LightColors, DarkColors, getTypography } from './colors';
 
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  const systemTheme = Appearance.getColorScheme();
-  const [isDarkMode, setIsDarkMode] = useState(systemTheme === 'dark' || systemTheme == null);
-
-  useEffect(() => {
-    const subscription = Appearance.addChangeListener(({ colorScheme }) => {
-      setIsDarkMode(colorScheme === 'dark');
-    });
-    return () => subscription.remove();
-  }, []);
+  // Default to dark mode always; user can toggle manually in Settings
+  const [isDarkMode, setIsDarkMode] = useState(true);
 
   const toggleTheme = useCallback(() => setIsDarkMode(prev => !prev), []);
 
