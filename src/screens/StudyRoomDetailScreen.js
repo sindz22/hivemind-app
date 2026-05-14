@@ -82,10 +82,34 @@ function computeLiveRemaining(room) {
 
 /* ─── Demo (offline) room — preserves prior mock experience ─── */
 function DemoRoomBody({ room, navigation }) {
-  const { colors, Typography } = useTheme();
+  const { colors, Typography, showMessage } = useTheme();
   const [tasks, setTasks] = useState([]);
   const [secondsLeft, setSecondsLeft] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
+  
+  // Ambience State
+  const [ambienceId, setAmbienceId] = useState(room.ambientTheme || 'lofi');
+  const [muteAmbience, setMuteAmbience] = useState(false);
+  const [ambientPaused, setAmbientPaused] = useState(false);
+  const [ambientVol, setAmbientVol] = useState(0.65);
+  const [screenFocused, setScreenFocused] = useState(true);
+
+  useFocusEffect(
+    useCallback(() => {
+      setScreenFocused(true);
+      return () => setScreenFocused(false);
+    }, [])
+  );
+
+  useRoomAmbience({
+    firestoreThemeId: room.ambientTheme,
+    firestoreAmbienceId: ambienceId,
+    ambienceEnabled: ambienceId !== 'none',
+    masterMuted: muteAmbience,
+    userPaused: ambientPaused,
+    volume: ambientVol,
+    isScreenFocused: screenFocused,
+  });
 
   useEffect(() => {
     setTasks(room.initialTasks.map((t) => ({ ...t })));
@@ -208,6 +232,52 @@ function DemoRoomBody({ room, navigation }) {
           Checklist {completedCount} / {tasks.length}
         </Text>
         <ProgressBar progress={taskProgress} height={10} />
+      </GlassCard>
+
+      <GlassCard style={styles.section}>
+        <View style={styles.rowBetween}>
+          <Text style={[Typography.h3, { color: colors.text }]}>Hive ambience</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <TouchableOpacity onPress={() => setAmbientPaused((p) => !p)} style={styles.iconBtn}>
+              <Ionicons name={ambientPaused ? 'play' : 'pause'} size={20} color={colors.primary} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setMuteAmbience((m) => !m)} style={styles.iconBtn}>
+              <Ionicons name={muteAmbience ? 'volume-mute' : 'volume-high'} size={22} color={colors.text} />
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.volRow}>
+          <Ionicons name="volume-low-outline" size={18} color={colors.textSecondary} />
+          <Slider
+            style={styles.slider}
+            minimumValue={0}
+            maximumValue={1}
+            value={ambientVol}
+            onValueChange={setAmbientVol}
+            minimumTrackTintColor={colors.primary}
+            maximumTrackTintColor={colors.border}
+            thumbTintColor={colors.primary}
+          />
+          <Ionicons name="volume-high-outline" size={18} color={colors.textSecondary} />
+        </View>
+        <View style={styles.chipsWrap}>
+          {ROOM_AMBIENCE.map((a) => (
+            <TouchableOpacity
+              key={a.id}
+              style={[
+                styles.chip,
+                {
+                  borderColor: ambienceId === a.id ? colors.primary : colors.glassBorder,
+                  backgroundColor: ambienceId === a.id ? `${colors.primary}22` : colors.shimmer,
+                },
+              ]}
+              onPress={() => setAmbienceId(a.id)}
+            >
+              <Ionicons name={a.icon} size={16} color={colors.primary} style={{ marginRight: 6 }} />
+              <Text style={[Typography.caption, { color: colors.text, fontWeight: '600' }]}>{a.label}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
       </GlassCard>
 
       <HoneyButton

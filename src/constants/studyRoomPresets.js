@@ -66,6 +66,8 @@ export const ROOM_THEMES = [
 ];
 
 export const ROOM_AMBIENCE = [
+  { id: 'library', label: 'Library Atmosphere', icon: 'book-outline' },
+  { id: 'study_focus', label: 'Study Focus', icon: 'bulb-outline' },
   { id: 'rain', label: 'Rainy window', icon: 'rainy-outline' },
   { id: 'forest', label: 'Forest & birds', icon: 'leaf-outline' },
   { id: 'cafe', label: 'Cafe chatter', icon: 'cafe-outline' },
@@ -79,29 +81,34 @@ const G = 'https://actions.google.com/sounds/v1';
 
 /** Per-ambience primary (+ optional subtle secondary) loops */
 export const AMBIENCE_LAYERS = {
+  library: { primary: require('../../assets/white_noise.mp3') },
+  study_focus: { primary: require('../../assets/night_synth.mp3') },
   rain: {
     primary: `${G}/weather/rain_heavy_loud.ogg`,
     secondary: `${G}/weather/thunder_crack.ogg`,
     secondaryVolume: 0.09,
   },
   forest: {
-    primary: `${G}/ambiences/forest_with_birds.ogg`,
+    primary: require('../../assets/forest_birds.mp3'),
     secondary: `${G}/water/small_stream_in_forest.ogg`,
     secondaryVolume: 0.18,
   },
   cafe: { primary: `${G}/ambiences/coffee_shop.ogg` },
-  white_noise: { primary: `${G}/ambiences/didgeridoo.ogg` },
+  white_noise: { primary: require('../../assets/white_noise.mp3') },
   night: {
-    primary: `${G}/ambiences/crickets_background.ogg`,
+    primary: require('../../assets/night_synth.mp3'),
   },
   lofi: {
-    primary: 'https://cdn.pixabay.com/download/audio/2022/03/24/audio_8e7b1b3b0c.mp3?filename=lofi-study-beat-112777.mp3',
+    primary: require('../../assets/lofi.mp3'),
   },
   none: null,
 };
 
+
 /** Backward compat map */
 export const AMBIENCE_AUDIO_URLS = {
+  library: AMBIENCE_LAYERS.library?.primary,
+  study_focus: AMBIENCE_LAYERS.study_focus?.primary,
   rain: AMBIENCE_LAYERS.rain?.primary,
   forest: AMBIENCE_LAYERS.forest?.primary,
   cafe: AMBIENCE_LAYERS.cafe?.primary,

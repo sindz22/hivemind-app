@@ -112,10 +112,10 @@ export const ROOM_THEMES_CONFIG = [
     displayName: 'Late Night Library',
     backgroundImage:
       'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=1200&q=80&auto=format&fit=crop',
-    ambienceAudioUrl: `${G}/foley/book_page_turn.ogg`,
-    musicLabel: 'Library hush',
+    ambienceAudioUrl: require('../../assets/night_synth.mp3'),
+    musicLabel: 'Library Focus',
     ambienceLayers: {
-      primary: `${G}/ambiences/quiet_restaurant.ogg`,
+      primary: require('../../assets/night_synth.mp3'),
       secondary: `${G}/foley/book_page_turn.ogg`,
       secondaryVolume: 0.12,
     },

@@ -301,16 +301,6 @@ export default function FocusTimerScreen({ navigation }) {
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={styles.musicButton}>
-          <Ionicons
-            name="musical-notes-outline"
-            size={18}
-            color={colors.textSecondary}
-          />
-          <Text style={[styles.musicButtonText, { color: colors.textSecondary }]}>Ambient Music</Text>
-          <View style={[styles.toggleDot, { backgroundColor: colors.primary }]} />
-        </TouchableOpacity>
-
         <View style={{ height: 40 }} />
       </ScrollView>
 
@@ -483,29 +473,5 @@ const getStyles = (colors, Typography) => StyleSheet.create({
     alignItems: 'center',
     borderWidth: 1,
     borderColor: colors.glassBorder,
-  },
-
-  musicButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.shimmer,
-    paddingVertical: 14,
-    paddingHorizontal: 24,
-    borderRadius: 30,
-    borderWidth: 1,
-    borderColor: colors.glassBorder,
-    gap: 10,
-  },
-
-  musicButtonText: {
-    fontSize: 14,
-    fontWeight: '600',
-  },
-
-  toggleDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    marginLeft: 4,
   },
 });

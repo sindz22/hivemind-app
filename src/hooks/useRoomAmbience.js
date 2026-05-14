@@ -161,17 +161,20 @@ export function useRoomAmbience({
     }
 
     /**
-     * Create a looped sound from a URI.
-     * Returns null silently if the URI fails to load (no crash).
+     * Create a looped sound from a URI or local asset module ID.
      */
-    async function tryCreate(uri) {
+    async function tryCreate(source) {
+      if (!source) return null;
       try {
+        // Expo Audio.Sound.createAsync takes module ID (number) or { uri: '...' }
+        const sourceObj = typeof source === 'number' ? source : { uri: source };
         const { sound } = await Audio.Sound.createAsync(
-          { uri },
+          sourceObj,
           { shouldPlay: false, isLooping: true, volume: 0 }
         );
         return sound;
-      } catch {
+      } catch (err) {
+        console.warn('[useRoomAmbience] Failed to load sound:', source, err);
         return null;
       }
     }
