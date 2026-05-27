@@ -13,6 +13,7 @@ import { UserProvider, useUser } from './src/context/UserContext';
 import LoadingSpinner from './src/components/LoadingSpinner';
 import ToastMessage from './src/components/ToastMessage';
 import FloatingBeeAssistant from './src/components/FloatingBeeAssistant';
+import { navigationRef } from './src/navigation/RootNavigation';
 
 
 import AuthLandingScreen from './src/screens/AuthLandingScreen';
@@ -117,7 +118,7 @@ function AppNavigator() {
   }
 
   return (
-    <NavigationContainer theme={navTheme}>
+    <NavigationContainer theme={navTheme} ref={navigationRef}>
       <Stack.Navigator
         screenOptions={{
           headerShown: false,

@@ -22,7 +22,7 @@ import {
  * @returns {Promise<{ success: boolean, data?: any, text?: string, error?: string }>}
  */
 export async function generateContent(prompt, options = {}) {
-  const { json = true, temperature, maxTokens, retries = 2 } = options;
+  const { json = true, temperature, maxTokens, retries = 2, timeout = 12000 } = options;
 
   if (!GEMINI_API_KEY || GEMINI_API_KEY === 'YOUR_GEMINI_API_KEY_HERE' || GEMINI_API_KEY.trim() === '') {
     return {
@@ -60,12 +60,18 @@ export async function generateContent(prompt, options = {}) {
   let lastError = null;
 
   for (let attempt = 0; attempt <= retries; attempt++) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeout);
+
     try {
       const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
+        signal: controller.signal,
       });
+
+      clearTimeout(timer);
 
       if (!response.ok) {
         const errorBody = await response.text();
@@ -106,7 +112,9 @@ export async function generateContent(prompt, options = {}) {
       return { success: true, text: rawText };
 
     } catch (networkError) {
-      lastError = networkError.message || 'Network error';
+      clearTimeout(timer);
+      lastError = networkError.name === 'AbortError' ? 'Request timed out' : (networkError.message || 'Network error');
+      console.warn(`Gemini API attempt ${attempt} failed: ${lastError}`);
       if (attempt < retries) {
         await delay(1000 * (attempt + 1));
         continue;
