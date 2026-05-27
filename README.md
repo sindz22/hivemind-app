@@ -86,6 +86,30 @@ HiveMind's core feature enabling group productivity:
 | **Audio** | Expo AV |
 
 
+## Environment Setup & EAS Build Configuration
+
+### Local Development
+To run this application locally, you must define the required environment variables:
+1. Copy the `.env.example` file to `.env`:
+   ```bash
+   cp .env.example .env
+   ```
+2. Open `.env` and fill in your actual API keys and configurations:
+   - **EXPO_PUBLIC_GEMINI_API_KEY**: Generate a key in [Google AI Studio](https://aistudio.google.com/).
+   - **EXPO_PUBLIC_FIREBASE_***: Get these credentials from your Project Settings in the [Firebase Console](https://console.firebase.google.com/).
+
+### Secure EAS Builds
+For cloud builds (Expo Application Services), DO NOT commit your `.env` file or hardcode keys. Instead, use EAS Secrets:
+1. Ensure your keys are prefixed with `EXPO_PUBLIC_` (e.g., `EXPO_PUBLIC_GEMINI_API_KEY`).
+2. Add these variables to your Expo project dashboard under **Project Settings > Secrets**, or define them using the EAS CLI:
+   ```bash
+   eas secret:create --name EXPO_PUBLIC_GEMINI_API_KEY --value your-gemini-key
+   eas secret:create --name EXPO_PUBLIC_FIREBASE_API_KEY --value your-firebase-key
+   # Repeat for other Firebase variables
+   ```
+Expo's build system dynamically injects any EAS secrets starting with `EXPO_PUBLIC_` into the application bundle during compilation.
+
+
 ## Problem Statement
 
 Students often switch between multiple applications for scheduling, focus sessions, collaboration, notes, and progress tracking. This fragmented workflow creates distractions and reduces productivity.

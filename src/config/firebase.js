@@ -4,13 +4,13 @@ import { initializeAuth, getReactNativePersistence, getAuth } from 'firebase/aut
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyDoo10roIpWzEhf-SgOQ_oPX8AUg3bLXyQ',
-  authDomain: 'hivemind-app-9485e.firebaseapp.com',
-  projectId: 'hivemind-app-9485e',
-  storageBucket: 'hivemind-app-9485e.firebasestorage.app',
-  messagingSenderId: '753004693511',
-  appId: '1:753004693511:web:659c609f041c2352ba02a2',
-  measurementId: 'G-FW995WV3TR',
+  apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.EXPO_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
